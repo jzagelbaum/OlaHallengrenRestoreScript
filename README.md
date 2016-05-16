@@ -1,5 +1,6 @@
 # OlaHallengrenRestoreScript
 Standby restore script output for Ola Hallengren's Maintenance Solution
+https://jaredzagelbaum.wordpress.com/2015/04/16/automated-restore-script-output-for-ola-hallengrens-maintenance-solution/
 
 There’s numerous blogs and presentations out there about Ola’s Maintenance Solution. I don’t feel a strong need to try to replicate that information here. What I am presenting is a custom extension that works out of the box for those of you that have created jobs using the maintenance solution. The scripts will add an additional job step to all DatabaseBackup jobs which will output a continuously updated text file that contains the most current restore scripts for each database in the instance.
 
