@@ -1,5 +1,3 @@
-USE DBMaint;
-GO
 SET ANSI_NULLS ON
 GO
 
