@@ -1,3 +1,5 @@
+USE DBMaint;
+GO
 SET ANSI_NULLS ON
 GO
 
@@ -186,15 +188,15 @@ AS (
 	SELECT Max(ID) LogIdBoundary
 		,DatabaseName
 	FROM (
-		SELECT FullId Id
+		SELECT FullId AS ID
 			,DatabaseName
 		FROM lastfull
 		
 		UNION ALL
 		
-		SELECT DiffId Id
-			,ld.DatabaseName
-		FROM lastdiff ld
+		SELECT DiffId
+			,DatabaseName
+		FROM lastdiff
 		) Nonlog
 	GROUP BY DatabaseName
 	)
