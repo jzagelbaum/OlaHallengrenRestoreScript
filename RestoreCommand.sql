@@ -1,9 +1,16 @@
-DROP PROCEDURE IF EXISTS dbo.RestoreCommand
+IF EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[RestoreCommand]') AND type in (N'P', N'PC'))
+DROP PROCEDURE [dbo].[RestoreCommand]
 GO
 SET ANSI_NULLS ON
+GO
 SET QUOTED_IDENTIFIER ON
 GO
-CREATE PROCEDURE dbo.RestoreCommand AS
+IF NOT EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[RestoreCommand]') AND type in (N'P', N'PC'))
+BEGIN
+EXEC dbo.sp_executesql @statement = N'CREATE PROCEDURE [dbo].[RestoreCommand] AS' 
+END
+GO
+ALTER PROCEDURE [dbo].[RestoreCommand] AS
 /*
 *********************************************************************************************
 Script for creating automated restore scripts based on Ola Hallengren's Maintenance Solution. 
