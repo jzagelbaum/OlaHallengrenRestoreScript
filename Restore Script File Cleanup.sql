@@ -35,6 +35,8 @@ END
 
 DECLARE @jobId BINARY (16);
 
+RAISERROR('Creating "Restore Script File Cleanup" job...',0,0) WITH NOWAIT;
+
 EXEC @ReturnCode = msdb.dbo.sp_add_job
 	 @job_name = N'Restore Script File Cleanup'
 	,@enabled = 1
@@ -51,11 +53,10 @@ EXEC @ReturnCode = msdb.dbo.sp_add_job
 
 IF (@@ERROR <> 0 OR @ReturnCode <> 0) GOTO QuitWithRollback;
 
-DECLARE @pscommand NVARCHAR(max) = N'$ErrorActionPreference = "Stop"
+DECLARE @pscommand NVARCHAR(max) = N'
+$ErrorActionPreference = "Stop"
 
-$computer = Get-Content Env:\COMPUTERNAME
-
-Get-ChildItem -Path Microsoft.PowerShell.Core\FileSystem::' + @backupdir + '\$computer\DatabaseRestore `
+Get-ChildItem -Path Microsoft.PowerShell.Core\FileSystem::' + @backupdir + '\*\*_DatabaseRestore_*.txt `
 | Where-Object {$_.LastWriteTime -lt (Get-Date).AddHours(-48)} `
 | Remove-Item
 ';
