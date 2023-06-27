@@ -1,3 +1,5 @@
+USE MyDB; --the database where you have the Ola Hallengren scripts/tables installed.
+GO
 SET ANSI_NULLS ON
 GO
 
@@ -250,7 +252,7 @@ ORDER BY cob.DatabaseName
 	,ID
 	,BackupTypeOrder;
 
-RAISERROR ('/*****************************************************************',10,1)WITH NOWAIT
+RAISERROR ('/*****************************************************************',10,1) WITH NOWAIT
 
 SET @message = 'Emergency Script Restore for ' + @@Servername + CASE @@Servicename
 		WHEN 'MSSQLSERVER'
@@ -258,17 +260,17 @@ SET @message = 'Emergency Script Restore for ' + @@Servername + CASE @@Servicena
 		ELSE '\' + @@Servicename
 		END;
 
-RAISERROR (@message,10,1)WITH NOWAIT;
+RAISERROR (@message,10,1) WITH NOWAIT;
 
 SET @message = 'Generated ' + convert(NVARCHAR, getdate(), 9);
 
-RAISERROR (@message,10,1)WITH NOWAIT;
+RAISERROR (@message,10,1) WITH NOWAIT;
 
 SET @message = 'Script does not perform a tail log backup. Dataloss may occur, use only for emergency DR.';
 
-RAISERROR (@message,10,1)WITH NOWAIT;
+RAISERROR (@message,10,1) WITH NOWAIT;
 
-RAISERROR ('******************************************************************/',10,1)WITH NOWAIT;
+RAISERROR ('******************************************************************/',10,1) WITH NOWAIT;
 
 OPEN restorecursor;
 
@@ -285,17 +287,17 @@ BEGIN
 	BEGIN
 		SET @message = 'RESTORE DATABASE ' + '[' + @DatabaseNamePartition + ']' + ' WITH RECOVERY;';
 
-		RAISERROR (@message,10,1)WITH NOWAIT;
+		RAISERROR (@message,10,1) WITH NOWAIT;
 	END
 
 	IF @DatabaseName <> @DatabaseNamePartition
 	BEGIN
 		SET @message = CHAR(13) + CHAR(10) + '--------' + @DatabaseName + '-------------';
 
-		RAISERROR (@message,10,1)WITH NOWAIT;
+		RAISERROR (@message,10,1) WITH NOWAIT;
 	END
 
-	RAISERROR (@Command,10,1)WITH NOWAIT;
+	RAISERROR (@Command,10,1) WITH NOWAIT;
 
 	SET @DatabaseNamePartition = @DatabaseName;
 
@@ -308,7 +310,7 @@ END
 
 SET @message = 'RESTORE DATABASE ' + '[' + @DatabaseNamePartition + ']' + ' WITH RECOVERY;';
 
-RAISERROR (@message,10,1)WITH NOWAIT;
+RAISERROR (@message,10,1) WITH NOWAIT;
 
 CLOSE restorecursor;
 
